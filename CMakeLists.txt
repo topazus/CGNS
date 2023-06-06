@@ -42,7 +42,7 @@ SET_CGNS_BUILD_TYPE()
 
 project("cgns" C)
 
-# Determine CGNS_VERSION from src/cgnslib.h for 
+# Determine CGNS_VERSION from src/cgnslib.h for
 file (READ ${PROJECT_SOURCE_DIR}/src/cgnslib.h _cgnslib_h_contents)
 string (REGEX REPLACE ".*#define[ \t]+CGNS_DOTVERS[ \t]+([0-9]*)\\.([0-9])[0-9]*.*$"
     "\\1.\\2" CGNS_VERSION ${_cgnslib_h_contents})
@@ -53,6 +53,7 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "cgns-${CGNS_VERSION}")
 set(CPACK_GENERATOR "STGZ;TGZ;ZIP")
 set(CPACK_SOURCE_GENERATOR "STGZ;TGZ;ZIP")
 include(CPack)
+include(GNUInstallDirs)
 
 CONFIGURE_FILE(
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
@@ -106,7 +107,7 @@ if (CGNS_ENABLE_64BIT)
 else ()
   mark_as_advanced(CLEAR CGNS_ENABLE_LEGACY)
 endif ()
-	
+
 if (CGNS_ENABLE_LFS)
   include(CheckSymbolExists)
   if (WIN32)
@@ -166,7 +167,7 @@ if(CGNS_ENABLE_FORTRAN)
 
   include(FortranCInterface)
   set(FortranCInterface_GLOBAL_SYMBOLS mysub mysub_ mysub__ MYSUB MYSUB_ MYSUB__)
-  FortranCInterface_HEADER(${CMAKE_BINARY_DIR}/FCMangle.h 
+  FortranCInterface_HEADER(${CMAKE_BINARY_DIR}/FCMangle.h
   			   MACRO_NAMESPACE "CGNS_FC_"
   			   SYMBOL_NAMESPACE "CGNS_FC_")
 
@@ -218,8 +219,8 @@ if(CGNS_ENABLE_FORTRAN)
 
   # Warn about a gfortran 10.2.0 bug (GCC Bug 100149) which
   # causes cg_goto_f to segfault, other versions are fine.
-   if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU" AND 
-       CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER "10.1" AND 
+   if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU" AND
+       CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER "10.1" AND
        CMAKE_Fortran_COMPILER_VERSION VERSION_LESS "10.3")
     message (WARNING "Fortran mapping (cg_goto_f) is broken for the specified gfortran version.
                            !!! IT'S ADVISABLE TO AVOID VERSION 10.2 !!!")
@@ -251,9 +252,9 @@ if (CGNS_ENABLE_HDF5)
   message (STATUS "HDF5 find comps: ${FIND_HDF_COMPONENTS}")
 
   set (SEARCH_PACKAGE_NAME "hdf5")
-  
+
   # If the first `find_package` below does not succeed, then the legacy `find_package`
-  # is tried (the `else` below).  The legacy find_package uses `HDF5_ROOT`.  But if 
+  # is tried (the `else` below).  The legacy find_package uses `HDF5_ROOT`.  But if
   # this is set, then CMake will issue warning and mistakenly say that `HDF5_ROOT` is
   # not used even though it might be.  This can confuse user, so set policy to not
   # issue that warning.
@@ -278,14 +279,14 @@ if (CGNS_ENABLE_HDF5)
       find_package (HDF5 NAMES ${SEARCH_PACKAGE_NAME} COMPONENTS ${FIND_HDF_COMPONENTS} REQUIRED)
       message (STATUS "HDF5 libs:${HDF5_FOUND} C:${HDF5_C_${CG_HDF5_LINK_TYPE_UPPER}_LIBRARY}")
     endif()
- 
+
     set(LINK_LIBS ${HDF5_C_${CG_HDF5_LINK_TYPE_UPPER}_LIBRARY})
   else ()
     find_package (HDF5) # Legacy find
-    
+
     #Legacy find_package does not set HDF5_TOOLS_DIR, so we set it here
     set(HDF5_TOOLS_DIR ${HDF5_LIBRARY}/../bin)
-    
+
     #Legacy find_package does not set HDF5_BUILD_SHARED_LIBS, so we set it here
     set(GUESS_SHARED "${HDF5_LIBRARY}/libhdf5${CMAKE_SHARED_LIBRARY_SUFFIX}")
     foreach (ITEM ${HDF5_LIBRARIES})
@@ -424,7 +425,7 @@ if (CGNS_BUILD_SHARED)
   set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 
   # the RPATH to be used when installing
-  set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+  set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 
   # add the automatically determined parts of the RPATH
   # which point to directories outside the build tree to the install RPATH

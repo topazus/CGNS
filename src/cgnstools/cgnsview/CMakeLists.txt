@@ -63,11 +63,11 @@ endif ()
 if (WIN32)
   install(TARGETS
 	cgiowish
-	RUNTIME DESTINATION bin)
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(PROGRAMS
 	cgnsview.bat
 	cgnsnodes.bat
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(FILES
 	cgnsview.tcl
 	cgns.tcl
@@ -79,21 +79,21 @@ if (WIN32)
 else ()
   install(TARGETS
 	cgiowish
-	RUNTIME DESTINATION bin/cgnstools)
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/cgnstools)
   install(PROGRAMS
 	cgnsview.sh
-	DESTINATION bin
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
 	RENAME cgnsview)
   install(PROGRAMS
 	cgnsview.desktop
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(PROGRAMS
 	cgnsnodes.sh
-	DESTINATION bin
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
 	RENAME cgnsnodes)
   install(PROGRAMS
 	cgnsnodes.desktop
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(FILES
 	cgnsview.tcl
 	cgns.tcl
@@ -102,5 +102,5 @@ else ()
 	import.tcl
 	tools.tcl
 	DESTINATION share/cgnstools)
-endif () 
+endif ()
 

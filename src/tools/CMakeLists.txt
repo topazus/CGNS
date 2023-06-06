@@ -72,27 +72,27 @@ install(TARGETS
 	cgnslist
 	cgnsnames
 	cgnscompress
-	RUNTIME DESTINATION bin)
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 if (WIN32)
   install(PROGRAMS
         cgnsupdate.bat
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   if (CGNS_ENABLE_HDF5)
     install(PROGRAMS
         adf2hdf.bat
         hdf2adf.bat
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   endif ()
 else ()
   install(PROGRAMS
         cgnsupdate
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   if (CGNS_ENABLE_HDF5)
     install(PROGRAMS
         adf2hdf
         hdf2adf
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   endif ()
 endif ()
 

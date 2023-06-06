@@ -59,11 +59,11 @@ endif ()
 if (WIN32)
   install(TARGETS
 	calcwish
-	RUNTIME DESTINATION bin)
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(PROGRAMS
 	cgnscalc.bat
 	unitconv.bat
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(FILES
 	cgnscalc.tcl
 	unitconv.tcl
@@ -78,21 +78,21 @@ if (WIN32)
 else ()
   install(TARGETS
 	calcwish
-	RUNTIME DESTINATION bin/cgnstools)
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/cgnstools)
   install(PROGRAMS
 	cgnscalc.sh
-	DESTINATION bin
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
 	RENAME cgnscalc)
   install(PROGRAMS
 	cgnscalc.desktop
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(PROGRAMS
 	unitconv.sh
-	DESTINATION bin
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
 	RENAME unitconv)
   install(PROGRAMS
 	unitconv.desktop
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(FILES
 	cgnscalc.tcl
 	unitconv.tcl

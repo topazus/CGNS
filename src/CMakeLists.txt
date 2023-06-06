@@ -45,8 +45,8 @@ set(SYSCFLAGS "")
 set(CFGFLAGS "")
 set(LIBS "")
 
-file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/lib LIBDIR)
-file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/include INCLUDEDIR)
+file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR} LIBDIR)
+file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR} INCLUDEDIR)
 file(TO_NATIVE_PATH ${CMAKE_C_COMPILER} CC)
 if (WIN32)
   set(CGNSLIB cgns.lib)
@@ -210,7 +210,7 @@ CHECK_FORTRAN_FEATURE(Fortran2003
   	 REAL(C_DOUBLE) :: e
   	 CHARACTER(LEN=1,KIND=C_CHAR), TARGET :: f
   	 TYPE(C_PTR) :: g
-         INTERFACE 
+         INTERFACE
            INTEGER(C_INT) FUNCTION test(A, UserDataName1) BIND(C, name='cg_goto')
              USE ISO_C_BINDING
              INTEGER(C_INT)   , INTENT(IN), VALUE :: A
@@ -218,27 +218,27 @@ CHECK_FORTRAN_FEATURE(Fortran2003
            END FUNCTION test
          END INTERFACE
   	 g = C_LOC(f(1:1))
-      END PROGRAM testf03 
+      END PROGRAM testf03
   "
   CHECK_FORTRAN_2003
 )
 if (CHECK_FORTRAN_2003)
   set(HAVE_FORTRAN_2003 1)
 endif ()
-   
+
 
 if (HAVE_FORTRAN_2003)
 CHECK_FORTRAN_FEATURE(Fortran2008TS
-  " 
+  "
        PROGRAM testf03
          USE ISO_C_BINDING
-         INTERFACE 
+         INTERFACE
             INTEGER(C_INT) FUNCTION test(A) BIND(C, name='test')
               USE ISO_C_BINDING
               INTEGER(C_INT), OPTIONAL :: A
             END FUNCTION test
          END INTERFACE
-       END PROGRAM testf03 
+       END PROGRAM testf03
   "
   CHECK_FORTRAN_2008TS
 )
@@ -247,7 +247,7 @@ if (CHECK_FORTRAN_2008TS)
 endif (CHECK_FORTRAN_2008TS)
 
 CHECK_FORTRAN_FEATURE(Fortran2008
-  " 
+  "
        MODULE test
          USE ISO_C_BINDING
          INTERFACE binding
@@ -281,28 +281,28 @@ CHECK_FORTRAN_FEATURE(Sizeof_int
            MODULE PROCEDURE test_int
            MODULE PROCEDURE test_c_int64
         END INTERFACE
-        
+
       CONTAINS
-        
+
         SUBROUTINE test_c_int64(a)
           USE ISO_C_BINDING
           INTEGER(C_INT64_T) :: a
         END SUBROUTINE test_c_int64
-        
+
         SUBROUTINE test_int(a)
           USE ISO_C_BINDING
           INTEGER :: a
         END SUBROUTINE test_int
-        
+
       END MODULE mod
 
       PROGRAM main
-        
+
         USE mod
         INTEGER :: a
-        
+
         CALL test_integer(a)
-        
+
       END PROGRAM main
   "
   CHECK_FORTRAN_DEFAULT_INTEGER_C_INT32_T
@@ -315,7 +315,7 @@ endif ()
 else ()
 
 CHECK_FORTRAN_FEATURE(Fortran95
-  " 
+  "
       PROGRAM testf95
   	 IMPLICIT NONE
          INTEGER, PARAMETER :: cgint_kind = SELECTED_INT_KIND(5)
@@ -437,9 +437,9 @@ if (CGNS_ENABLE_HDF5)
   # --------------------------------------------------------------------
 
 CHECK_HDF5_FEATURE(Multi_Dataset
-  " 
+  "
  #include \"hdf5.h\"
- void main(void) 
+ void main(void)
 {
   H5D_rw_multi_t *multi_info;
   return;
@@ -455,7 +455,7 @@ CHECK_HDF5_FEATURE(Multi_Dataset
   # --------------------------------------------------------------------
 
 CHECK_HDF5_FEATURE(Collective_metadata
-  " 
+  "
  #include \"hdf5.h\"
  void main(void)
  {
@@ -475,7 +475,7 @@ CHECK_HDF5_FEATURE(Collective_metadata
  # --------------------------------------------------------------------
 
 CHECK_HDF5_FEATURE(H5Pset_file_space_strategy
-  " 
+  "
  #include \"hdf5.h\"
  void main(void)
  {
@@ -683,10 +683,10 @@ endif ()
 # for windows, need to install both cgnsdll.dll and cgnsdll.lib
 install (TARGETS ${install_targets}
          EXPORT cgns-targets
-         LIBRARY DESTINATION lib COMPONENT libraries
-         ARCHIVE DESTINATION lib COMPONENT libraries
-         RUNTIME DESTINATION bin COMPONENT libraries
-         INCLUDES DESTINATION include)
+         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
+         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
+         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT libraries
+         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Set the install path of the header files
 set(headers
@@ -725,13 +725,13 @@ endif ()
 
 # Set the install path of the header files
 install(FILES ${headers}
-	DESTINATION include)
+	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 #if (NOT CGNS_EXTERNALLY_CONFIGURE)
 install(EXPORT cgns-targets
 	FILE cgns-targets.cmake
 	NAMESPACE CGNS::
-	DESTINATION lib/cmake/cgns
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cgns
 	)
 #endif()
 
