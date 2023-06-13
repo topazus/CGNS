@@ -66,10 +66,10 @@ endif ()
 if (WIN32)
   install(TARGETS
 	plotwish
-	RUNTIME DESTINATION bin)
-  install(PROGRAMS
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
+  install(TARGETS
 	cgnsplot.bat
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(FILES
 	cgnsplot.tcl
 	cgnsplot.ico
@@ -80,14 +80,14 @@ if (WIN32)
 else ()
   install(TARGETS
 	plotwish
-	RUNTIME DESTINATION bin/cgnstools)
-  install(PROGRAMS
+	DESTINATION ${CMAKE_INSTALL_BINDIR}/cgnstools)
+  install(TARGETS
 	cgnsplot.sh
-	DESTINATION bin
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
 	RENAME cgnsplot)
-  install(PROGRAMS
+  install(TARGETS
 	cgnsplot.desktop
-	DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(FILES
 	cgnsplot.tcl
 	cgnsplot.ico

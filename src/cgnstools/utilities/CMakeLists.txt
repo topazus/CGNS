@@ -43,7 +43,7 @@ target_link_libraries(cgns_info PRIVATE ${UTILITIES_LK_LIBS})
 #----------
 
 # plot3d_to_cgns
-set(plot3d_to_cgns_FILES 
+set(plot3d_to_cgns_FILES
 	plot3d_to_cgns.c
 	cgnsutil.c
 	binaryio.c
@@ -53,7 +53,7 @@ add_executable(plot3d_to_cgns ${plot3d_to_cgns_FILES})
 target_link_libraries(plot3d_to_cgns PRIVATE ${UTILITIES_LK_LIBS})
 
 # cgns_to_plot3d
-set(cgns_to_plot3d_FILES 
+set(cgns_to_plot3d_FILES
 	cgns_to_plot3d.c
 	cgnsutil.c
 	binaryio.c
@@ -66,7 +66,7 @@ target_link_libraries(cgns_to_plot3d PRIVATE ${UTILITIES_LK_LIBS})
 #----------
 
 # patran_to_cgns
-set(patran_to_cgns_FILES 
+set(patran_to_cgns_FILES
 	patran_to_cgns.c
 	cgnsImport.c
 	../common/getargs.c
@@ -243,7 +243,7 @@ if (WIN32)
 	interpolate_cgns
 	update_ngon
         cgns_info
-	RUNTIME DESTINATION bin)
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(FILES
 	conserved.cnv
 	convert.tcl
@@ -281,7 +281,7 @@ else ()
 	interpolate_cgns
 	update_ngon
         cgns_info
-	RUNTIME DESTINATION bin/cgnstools)
+	DESTINATION ${CMAKE_INSTALL_BINDIR}/cgnstools)
   install(FILES
 	conserved.cnv
 	convert.tcl
